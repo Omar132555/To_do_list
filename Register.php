@@ -3,6 +3,7 @@ $error = false;
 $username_error = "";
 $password_error ="";
 $Register  = "";
+
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -183,9 +184,11 @@ button:hover{
   background-color: rgba(255,255,255,0.27);
   color: #eaf0fb;
   text-align: center;
+  transition: 0.4s;
 }
 .social div:hover{
   background-color: rgba(255,255,255,0.47);
+  transition: 0.4s;
 }
 .social .fb{
   margin-left: 25px;

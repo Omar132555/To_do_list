@@ -7,7 +7,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $username = $_POST['username'];
     $password = $_POST['password'];
     if(empty($username)){
-        $username_error = "<div class ='text-danger'>*Username is required</div>";
+        $username_error = "";
         $error = true;
     }
     if(empty($password)){
@@ -15,9 +15,6 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $error = true;
     }
 }
-?>
-
-<?php
 
 require 'vendor/autoload.php';
 use Firebase\JWT\JWT;
@@ -31,7 +28,7 @@ $connection = new mysqli($host,$user, $pass, $db_name );
 if(!$error)
 {
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        $stmt = $connection -> prepare("SELECT Username,pass FROM to_do_users WHERE username = ?");
+        $stmt = $connection -> prepare("SELECT ID,Username,pass FROM to_do_users WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt -> get_result();
@@ -44,7 +41,8 @@ if(!$error)
                 'isat' => $issued_at,
                 'exp' =>time()+3600,
                 'data' =>[
-                    'username' => $username
+                    'username' => $username,
+                    'ID' => $user['ID']
                 ]
             ];
             $jwt = JWT::encode($payload, $key, 'HS256');
@@ -254,6 +252,7 @@ button:hover{
             <div class="go"><i class="fab fa-google"></i>  Google</div>
             <div class="fb"><i class="fab fa-facebook"></i>  Facebook</div>
         </div>
+        
         <?php echo $Register;?>
     </form>
     <?=include("footer.php");?>

@@ -2,15 +2,23 @@
 require 'vendor/autoload.php';
 use \Firebase\JWT\JWT;
 use \Firebase\JWT\Key;
+
+if (!isset($_COOKIE['token'])) {
+    header("Location: Login.php");
+    exit();
+}
 $jwt = $_COOKIE['token']; // Important to define jwt from cookie
-$key ='yZBD38+kHlsUqroZWx02vymp4E6lq3KWfyObDDSw2X8=';
+$key ='yZBD38+kHlsUqroZWx02vymp4E6lq3KWfyObDDSw2X8='; // - This is User Autherization -
 $decoded = JWT::decode($jwt, new key( $key,'HS256' ));
-if($_SERVER['REQUEST_METHOD'] === 'POST')
+
+if($_SERVER['REQUEST_METHOD'] === 'POST') //logout function
 {
     setcookie("token",$jwt,time()-3600,"/","", true, true);
     header("location:login.php");
     exit();
 }
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,6 +39,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             <li><a href="home.php">Home</a></li>
             <li><a href="Login.php">Login</a></li>
             <li><a href="Register.php">Register</a></li>
+            <li><a href="Task.php">Tasks</a></li>
         </ul>
     </nav>
 
@@ -51,3 +60,4 @@ if($_SERVER['REQUEST_METHOD'] === 'POST')
             <img src="image/i.png" alt="">
         </div>
     </div>
+    
